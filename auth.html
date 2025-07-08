@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sign in with Google</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #idToken {
+      width: 100%;
+      padding: 8px;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    #copyBtn {
+      margin-top: 10px;
+      padding: 8px 16px;
+      font-size: 14px;
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Google Sign-In</h2>
+  <div id="g_id_onload"
+       data-client_id="YOUR_CLIENT_ID"
+       data-context="signin"
+       data-ux_mode="redirect"
+       data-login_uri="https://your-username.github.io/google-signin-unity/auth.html"
+       data-auto_prompt="false">
+  </div>
+  <div class="g_id_signin" data-type="standard"></div>
+
+  <textarea id="idToken" placeholder="ID Token will appear here..." readonly></textarea>
+  <button id="copyBtn" onclick="copyToken()">Copy ID Token</button>
+
+  <script>
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    function copyToken() {
+      const tokenField = document.getElementById('idToken');
+      tokenField.select();
+      document.execCommand('copy');
+      alert('Token copied to clipboard!');
+    }
+
+    // Extract ID token from URL
+    window.onload = () => {
+      const token = getQueryParam("credential");
+      if (token) {
+        document.getElementById("idToken").value = token;
+      }
+    };
+  </script>
+</body>
+</html>
